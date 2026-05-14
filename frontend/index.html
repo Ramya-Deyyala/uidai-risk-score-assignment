@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Risk Score UI</title>
+</head>
+
+<body>
+
+    <h2>Risk Score Initiate API</h2>
+
+    <input
+        type="text"
+        id="partner"
+        placeholder="Partner ID"
+    >
+
+    <br><br>
+
+    <input
+        type="text"
+        id="aadhaar"
+        placeholder="Aadhaar Number"
+    >
+
+    <br><br>
+
+    <input
+        type="text"
+        id="device"
+        placeholder="Device Data"
+    >
+
+    <br><br>
+
+    <input
+        type="text"
+        id="callback"
+        value="http://127.0.0.1:8000/callback"
+    >
+
+    <br><br>
+
+    <button onclick="submitData()">
+        Submit
+    </button>
+
+    <script>
+
+        async function submitData() {
+
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYXJ0bmVyXzEiLCJzY29wZSI6IndyaXRlOnJpc2tfdGVzdCJ9.kCsZ29Eykk3fApmc_Py6nqS2KzBz3wjvz04DlPiz--E";
+
+            const response = await fetch(
+                "http://127.0.0.1:8000/api/v1/risk-score/initiate",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+
+                    body: JSON.stringify({
+
+                        partner_id:
+                            document.getElementById("partner").value,
+
+                        aadhaar_number:
+                            document.getElementById("aadhaar").value,
+
+                        device_data:
+                            document.getElementById("device").value,
+
+                        callback_url:
+                            document.getElementById("callback").value
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            console.log(data);
+
+            alert(JSON.stringify(data));
+        }
+
+    </script>
+
+</body>
+
+</html>
